@@ -1,0 +1,60 @@
+═══════════════════════════════════════════════════════════════
+    🚀 GUIA RÁPIDO PARA RODAR O CYCLEFLOW (TCC)
+═══════════════════════════════════════════════════════════════
+
+⚠️  PASSO 1: ABRIR TERMINAL (Command Prompt)
+───────────────────────────────────────────
+  1. Pressione: Windows + R
+  2. Digite: cmd
+  3. Pressione: ENTER
+
+⚠️  PASSO 2: NAVEGAR PARA A PASTA DO FRONTEND
+───────────────────────────────────────────
+  Cole este comando no terminal (Command Prompt):
+
+    cd c:\Users\nad\Downloads\TCC\frontend
+
+  Depois pressione ENTER
+
+⚠️  PASSO 3: INSTALAR AS DEPENDÊNCIAS
+───────────────────────────────────────
+  Cole este comando:
+
+    npm install
+
+  Espere terminar (pode levar alguns minutos).
+
+⚠️  PASSO 4: RODAR O SERVIDOR
+───────────────────────────────
+  Cole este comando:
+
+    npm run dev
+
+  Você verá algo como:
+    ➜  Local:   http://localhost:5173/
+
+⚠️  PASSO 5: ABRIR NO NAVEGADOR
+───────────────────────────────
+  1. Copie a URL: http://localhost:5173/
+  2. Cole no Google Chrome, Firefox ou Edge
+  3. Pressione ENTER
+
+═══════════════════════════════════════════════════════════════
+
+✅ Pronto! A página deve aparecer!
+
+  • Clique em "Entrar" para ir ao login
+  • Clique em "Criar Conta" para cadastro
+  • Clique em "Dashboard" para ver o painel
+
+═══════════════════════════════════════════════════════════════
+
+❓ Se der erro "npm: command not found"
+   → Node.js não está instalado
+   → Baixe em: https://nodejs.org/
+
+❓ Se dar erro de "Access Denied"
+   → Abra o Command Prompt como Administrador
+   → Clique direito no cmd → "Executar como administrador"
+
+═══════════════════════════════════════════════════════════════

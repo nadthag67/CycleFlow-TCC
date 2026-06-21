@@ -1,0 +1,54 @@
+:root {
+  --primary: #ff6b9d;
+  --secondary: #ffd6e5;
+  --accent: #9b5de5;
+  --background: #ffffff;
+  --text: #343a40;
+  --success: #4caf50;
+  --warning: #ffc107;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(180deg, #fff8fb 0%, #ffffff 100%);
+  color: var(--text);
+}
+
+html, body, #root {
+  min-height: 100%;
+}
+
+button, input, textarea, select {
+  font-family: inherit;
+}
+
+.navbar-brand,
+.nav-link,
+.card-title,
+.card-text {
+  color: var(--text) !important;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-secondary {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+.bg-soft {
+  background-color: rgba(255, 214, 229, 0.5);
+}
+
+.text-soft {
+  color: #6c4c7d;
+}
+
+.card {
+  border: none;
+  border-radius: 1rem;
+}

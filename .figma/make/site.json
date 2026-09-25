@@ -1,0 +1,10 @@
+{
+  "description": "This web application facilitates the development of group projects by transforming existing materials into tailored content for academic presentations.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Outfit:wght@300;400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Outfit', sans-serif;
+
+  --color-rose-blush: #fdf2f7;
+  --color-rose-soft: #f7d6e8;
+  --color-rose-mid: #e8649a;
+  --color-rose-deep: #c73f7a;
+  --color-plum: #7c3f8e;
+  --color-plum-light: #b57bc8;
+  --color-lavender: #ede4f5;
+  --color-sand: #fdf8f5;
+  --color-ink: #1a1020;
+  --color-ink-muted: #5a4a62;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-sand);
+  color: var(--color-ink);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #e8649a55;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #e8649a99;
+}

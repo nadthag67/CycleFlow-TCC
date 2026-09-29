@@ -1,6 +1,7 @@
-const express = require('express');
-const cors = require('cors');
-const { sql, getConnection } = require('./db');
+
+import express from 'express';
+import cors from 'cors';
+import { sql, poolPromise } from './db.js';
 
 const app = express();
 app.use(cors());
@@ -10,7 +11,7 @@ app.use(express.json());
 app.post('/api/usuarios', async (req, res) => {
   const { nome, email, password } = req.body;
   try {
-    const pool = await getConnection();
+  const pool = await poolPromise;
     await pool.request()
       .input('nome', sql.VarChar, nome)
       .input('email', sql.VarChar, email)
@@ -27,7 +28,7 @@ app.post('/api/usuarios', async (req, res) => {
 app.post(['/api/usuarios/login', '/api/login'], async (req, res) => {
   const { email, password } = req.body;
   try {
-    const pool = await getConnection();
+   const pool = await poolPromise;
     const result = await pool.request()
       .input('email', sql.VarChar, email)
       .input('password', sql.VarChar, password)

@@ -1,9 +1,13 @@
+import dotenv from 'dotenv';
+dotenv.config();
 
+import { OAuth2Client } from 'google-auth-library';
 import express from 'express';
 import cors from 'cors';
 import { sql, poolPromise } from './db.js';
 
 const app = express();
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 app.use(cors());
 app.use(express.json());
 
@@ -23,12 +27,11 @@ app.post('/api/usuarios', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
 // 2. ROTA: Login de Usuária (Aceita /api/login e /api/usuarios/login)
 app.post(['/api/usuarios/login', '/api/login'], async (req, res) => {
   const { email, password } = req.body;
   try {
-   const pool = await poolPromise;
+    const pool = await poolPromise;
     const result = await pool.request()
       .input('email', sql.VarChar, email)
       .input('password', sql.VarChar, password)
@@ -38,12 +41,64 @@ app.post(['/api/usuarios/login', '/api/login'], async (req, res) => {
       return res.status(401).json({ error: 'E-mail ou senha incorretos.' });
     }
 
-    res.status(200).json({ 
-      message: 'Login efetuado com sucesso!', 
-      usuario: result.recordset[0] 
+    res.status(200).json({
+      message: 'Login efetuado com sucesso!',
+      usuario: result.recordset[0]
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+// ROTA: Login com Google
+app.post('/api/auth/google', async (req, res) => {
+  const { token } = req.body;
+
+  try {
+    // 1. O backend confirma com a Google se o token é válido
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    // 2. Extrai os dados da conta Google (nome e email)
+    const payload = ticket.getPayload();
+    const { name, email } = payload;
+
+    const pool = await poolPromise;
+
+    // 3. Verifica se a usuária já está registada no SQL Server
+    const userCheck = await pool.request()
+      .input('email', sql.VarChar, email)
+      .query('SELECT * FROM Usuaria WHERE email = @email');
+
+    if (userCheck.recordset.length > 0) {
+      // Se a usuária já existe, entra direto (Login)
+      res.status(200).json({ 
+        message: 'Login com Google bem sucedido!', 
+        user: userCheck.recordset[0] 
+      });
+    } else {
+      // 4. Se não existe, regista a usuária automaticamente.
+      await pool.request()
+        .input('name', sql.VarChar, name)
+        .input('email', sql.VarChar, email)
+        .input('password', sql.VarChar, 'conta_google_oauth')
+        .query('INSERT INTO Usuaria (nome, email, password) VALUES (@name, @email, @password)');
+
+      // Vai buscar os dados da usuária que acabou de ser criada
+      const newUser = await pool.request()
+        .input('email', sql.VarChar, email)
+        .query('SELECT * FROM Usuaria WHERE email = @email');
+
+      res.status(201).json({ 
+        message: 'Conta criada via Google com sucesso!', 
+        user: newUser.recordset[0] 
+      });
+    }
+  } catch (error) {
+    console.error('Erro na autenticação com Google:', error);
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -163,7 +218,7 @@ app.post('/api/compartilhar/dados', async (req, res) => {
     });
 
   } catch (err) {
-    console.error("Erro ao buscar dados compartilhados:", err);
-    res.status(500).json({ error: err.message });
-  }
+  console.error("Erro ao buscar dados compartilhados:", err);
+  res.status(500).json({ error: err.message });
+}
 });
